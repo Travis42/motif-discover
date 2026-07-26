@@ -1,0 +1,9 @@
+# Build artifacts
+build/
+*.o
+
+# OS
+.DS_Store
+
+# Internal notes
+TODO.md

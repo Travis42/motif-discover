@@ -1,0 +1,10 @@
+\section{Introduction}
+\label{sec:intro}
+
+De novo motif discovery --- the identification of recurring DNA sequence patterns from collections of functional genomic regions --- remains a central problem in computational biology. Given a set of DNA sequences enriched for transcription factor (TF) binding sites (typically ChIP-seq peaks), the goal is to discover position weight matrices (PWMs) that represent the binding specificity of the targeted TF.
+
+Several algorithms have been developed over three decades of research. MEME \citep{bailey1994meme} pioneered expectation-maximization (EM) approaches and remains a gold standard for accuracy, but its computational cost makes it impractical for large datasets. STREME \citep{bailey2021streme}, the successor to DREME \citep{bailey2011dreme}, uses suffix-tree enumeration for faster discovery and is the current default in the MEME Suite. HOMER \citep{heinz2010homer} uses a distinct cumulative approach and is widely used in ChIP-seq analysis pipelines despite its slower runtime.
+
+Despite this maturity, there remains a tension between accuracy and speed: the most accurate tools (MEME, HOMER) are slow, while faster tools (STREME) leave accuracy on the table. For large-scale analyses --- such as the ENCODE Consortium's \citep{encode2012} 500+ TF ChIP-seq datasets --- this trade-off imposes a practical bottleneck.
+
+We present motif-discover, a tool that substantially narrows this gap. On the standard benchmark of dinucleotide-shuffled negatives, motif-discover significantly outperforms STREME in both accuracy and speed. On the more challenging genomic negatives benchmark, it matches MEME's accuracy --- the gold standard --- while running approximately 300$\times$ faster. The tool is distributed as a single statically-linked binary with no dependencies, enabling reproducible motif analysis on any x86-64 Linux system.

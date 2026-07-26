@@ -1,0 +1,60 @@
+\section{Methods}
+\label{sec:methods}
+
+\subsection{Data}
+
+We benchmarked on 132 ENCODE K562 ChIP-seq transcription factor datasets. Each dataset contains approximately 200 DNA sequences of 500 base pairs, centered on ChIP-seq peak summits. All datasets are from the ENCODE Consortium's uniform processing pipeline.
+
+For motif discovery, the central 100\,bp window of each sequence was used, following standard practice to focus on the region most likely to contain the binding site. Full 500\,bp sequences were used for scoring and AUROC evaluation.
+
+\subsection{Negative Sets}
+
+Two negative sets were used:
+
+\begin{enumerate}
+    \item \textbf{Dinucleotide-shuffled negatives (132 TFs):} Each positive sequence was dinucleotide-shuffled, preserving mono- and dinucleotide composition while destroying higher-order sequence patterns. This is the standard benchmark negative set used by STREME and MEME.
+    
+    \item \textbf{Genomic negatives (53 TFs):} Random regions sampled from hg38, matched for length and chromosome distribution. This represents a more realistic and challenging benchmark, as random genomic DNA contains natural regulatory patterns absent from shuffled sequences.
+\end{enumerate}
+
+\subsection{Tools Compared}
+
+\begin{table}[H]
+\centering
+\caption{Tools compared in this study.}
+\label{tab:tools}
+\small
+\begin{tabular}{lll}
+\toprule
+Tool & Version & Parameters \\
+\midrule
+motif-discover       & 1.0    & Default (widths 6--17) \\
+STREME               & 5.5.5  & \texttt{--dna --minw 6 --maxw 17} \\
+MEME                 & 5.5.5  & \texttt{-mod zoops -minw 6 -maxw 17 -revcomp} \\
+proto-motif-discover & ---    & Earlier prototype, same width range \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+All tools were run with a width range of 6--17 base pairs. Both strands were searched by all tools. STREME's default background model was used. MEME was run in Zero-or-One Occurrence Per Sequence (ZOOPS) mode with 5 motifs returned.
+
+\subsection{Evaluation}
+
+For each TF and tool, the highest-scoring motif (by the tool's internal ranking) was used for evaluation. Discriminative power was measured by AUROC: the area under the receiver operating characteristic curve, computed from the score distributions of positive and negative sequences.
+
+All tools' output PWMs were scored using identical scoring code to ensure fairness. The AUROC computation is deterministic and identical across all comparisons.
+
+\subsection{Statistical Tests}
+
+\begin{itemize}
+    \item Wilcoxon signed-rank test (paired, two-sided) for paired AUROC comparisons
+    \item Bootstrap 95\% confidence intervals (1000 resamples, seed = 42)
+    \item McNemar's test for binary outcome comparison
+    \item Cliff's $\delta$ and Cohen's $d$ for effect size estimation
+\end{itemize}
+
+\subsection{Hardware and Reproducibility}
+
+All benchmarks were run on a single AMD EPYC-Rome processor (2 cores, 2.0\,GHz) with 3.7\,GB RAM under Ubuntu Linux. motif-discover is deterministic (no random seed). STREME and MEME are deterministic under fixed parameters.
+
+motif-discover is compiled with GCC at \texttt{-O2 -std=c99 -static} and distributed as a stripped, statically-linked binary (928\,KB). Source-compiled STREME (5.5.5, \texttt{-O2}) was verified to produce identical results to the prebuilt binary, confirming the speed comparison is algorithmic rather than an artifact of compilation flags.

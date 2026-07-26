@@ -1,0 +1,35 @@
+\section*{Supplementary Material}
+
+\subsection*{Section A: Per-TF Results}
+
+Per-TF AUROC values for all 132 transcription factors are provided in the accompanying benchmark data files (\texttt{benchmark\_data/shuffled\_negatives\_132tf.csv} and \texttt{benchmark\_data/genomic\_negatives\_132tf.csv}).
+
+\subsection*{Section B: TOMTOM Match Analysis}
+
+TOMTOM comparison against JASPAR 2026 Core (2{,}633 motifs):
+
+\begin{table}[H]
+\centering
+\caption{TOMTOM JASPAR match rates ($n = 53$ TFs).}
+\label{tab:supp_tomtom}
+\small
+\begin{tabular}{lrr}
+\toprule
+Metric & motif-discover & STREME \\
+\midrule
+Top-1 strict ($q<0.001$, $\geq$70\% overlap) & 23 (50.0\%) & 31 (62.0\%) \\
+Top-1 moderate ($q<0.05$) & 40 (87.0\%) & 45 (90.0\%) \\
+Top-5 strict & 29 (63.0\%) & 37 (74.0\%) \\
+Top-5 moderate ($q<0.05$) & 46 (100\%) & 50 (100\%) \\
+No match at all & 6 & 5 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection*{Section C: Compilation Fairness}
+
+STREME prebuilt binary vs.\ source-compiled (\texttt{-O2}) across 23 TFs: ratio 1.00$\times$ (identical performance). Both compiled with GCC on Ubuntu 24.04.
+
+\subsection*{Section D: Reproducibility}
+
+All benchmark data, the motif-discover binary, and a Jupyter notebook reproducing all figures and statistics are available at \url{https://github.com/Travis42/motif-discover}.

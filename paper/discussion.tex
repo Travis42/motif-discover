@@ -1,0 +1,24 @@
+\section{Discussion}
+\label{sec:discussion}
+
+motif-discover demonstrates that the accuracy-speed trade-off in de novo motif discovery can be substantially improved. On the standard shuffled-negatives benchmark, it significantly outperforms STREME in both accuracy and speed. On the more realistic genomic-negatives benchmark, it matches MEME's accuracy --- the gold standard --- while running approximately 300$\times$ faster.
+
+\subsection{Practical Implications}
+
+The practical implications are significant. Large-scale analyses involving hundreds of ChIP-seq datasets (e.g., the full ENCODE compendium of 500+ TFs) can be completed in minutes rather than hours. The tool's minimal memory footprint (10\,MB) and zero-dependency static binary further reduce barriers to adoption, enabling integration into containerized pipelines, cloud workflows, and interactive analysis environments such as Jupyter notebooks.
+
+\subsection{Limitations}
+
+\begin{enumerate}
+    \item \textbf{Default width range.} The default width range (6--17\,bp) covers the vast majority of known TF binding sites. For TFs with unusually wide binding footprints, the \texttt{--minw} and \texttt{--maxw} flags allow users to extend the search range at the cost of runtime.
+    
+    \item \textbf{TFs with weak ChIP signal.} Both motif-discover and competing tools perform near-random (AUROC $\approx 0.5$) on a small number of TFs, likely reflecting noisy ChIP-seq data rather than algorithmic failure.
+    
+    \item \textbf{Single organism.} The current benchmark uses human ChIP-seq data only. Cross-organism validation is planned.
+    
+    \item \textbf{Closed source.} The algorithm is distributed as a binary. Source code is available upon request for academic collaboration.
+\end{enumerate}
+
+\subsection{Future Work}
+
+Priority improvements include cross-organism validation on model organism ChIP-seq data, integration with downstream motif analysis tools (FIMO, CentriMo), and exploration of RNA motif discovery.

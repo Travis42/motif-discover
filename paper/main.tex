@@ -1,0 +1,43 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{natbib}
+\usepackage{caption}
+\usepackage{float}
+
+\title{motif-discover: Fast and Accurate de novo DNA Motif Discovery for ChIP-seq Data}
+\author{Travis Smith\\
+\small Independent Researcher, S\~ao Miguel, Azores, Portugal\\
+\texttt{travis.smith42@pm.me}}
+\date{July 2026}
+
+\begin{document}
+\maketitle
+
+\input{abstract}
+\input{introduction}
+\input{methods}
+\input{results}
+\input{discussion}
+
+\vspace{1em}
+\noindent\textbf{Availability:} Binary, benchmark data, and reproducible Jupyter notebook available at \url{https://github.com/Travis42/motif-discover}.
+
+\vspace{1em}
+\noindent\textbf{Acknowledgements:} The author thanks the ENCODE Consortium for providing open-access ChIP-seq data, the JASPAR database for motif reference data, and the MEME Suite development team --- Timothy Bailey, Charles Grant, and William Noble --- whose tools (STREME, MEME, TOMTOM) were used extensively in this study and whose work has advanced the field of computational motif discovery over three decades.
+
+\vspace{1em}
+\noindent\textbf{Funding:} This work received no external funding.
+
+\bibliographystyle{plainnat}
+\bibliography{bibliography}
+
+\clearpage
+\appendix
+\renewcommand{\thesection}{\Alph{section}}
+\input{supplementary}
+
+\end{document}

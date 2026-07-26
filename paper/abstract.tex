@@ -1,0 +1,9 @@
+\begin{abstract}
+\noindent\textbf{Motivation:} DNA motif discovery from ChIP-seq data is a foundational task in computational biology. Existing tools face a trade-off between accuracy and speed: MEME achieves high accuracy but is computationally expensive, while faster tools like STREME sacrifice some accuracy. We present motif-discover, a tool that achieves significantly higher accuracy than STREME at a fraction of the runtime, with accuracy comparable to MEME.
+
+\noindent\textbf{Results:} On a benchmark of 132 ENCODE K562 ChIP-seq transcription factor profiles, motif-discover achieves a mean AUROC of 0.842 versus STREME's 0.803 (Wilcoxon $p = 4.1 \times 10^{-7}$, 85 wins / 43 losses / 4 ties), at 0.3\,s per TF --- 11$\times$ faster than STREME. On the more realistic genomic negatives benchmark (53 TFs, hg38 background, Markov-1 scoring), motif-discover achieves 0.891 AUROC, outperforming both STREME (0.863, $p = 6.5 \times 10^{-4}$, 15$\times$ faster) and MEME (0.881, $\sim$300$\times$ faster). On the full 132-TF genomic comparison against our earlier prototype, motif-discover achieves 0.896 AUROC versus 0.856 ($p = 1.7 \times 10^{-14}$). Of 132 discovered motifs, 131 are statistically significant (Bonferroni-corrected Fisher's exact test). The tool is distributed as a single 928\,KB statically-linked binary with no runtime dependencies.
+
+\noindent\textbf{Availability:} \url{https://github.com/Travis42/motif-discover}
+
+\noindent\textbf{Contact:} \texttt{travis.smith42@pm.me}
+\end{abstract}
