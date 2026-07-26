@@ -1,33 +1,68 @@
 # motif-discover
 
-Fast, accurate de novo motif discovery for ChIP-seq data. A static x86-64 Linux binary — no dependencies required.
+**Fast, accurate de novo DNA motif discovery for ChIP-seq data.**
 
-## Results
+Distributed as a single 928 KB statically-linked binary — no dependencies, no compilation, no container required.
 
-Benchmarked on **132 ENCODE K562 ChIP-seq transcription factor profiles**:
+📄 **[Read the paper](paper/motif-discover.pdf)** — full benchmark details, statistical analysis, and biological validation
 
-| Metric | motif-discover | STREME | MEME |
-|--------|---------------|--------|------|
-| AUROC (shuffled neg.) | **0.842** | 0.803 | — |
-| AUROC (genomic neg.) | **0.891** | 0.863 | 0.881 |
-| Time per TF | **0.3s** | 3.3s | ~90s |
-| Speedup vs STREME | — | 1.0× | — |
+📊 **[Interactive notebook](demo_notebook.ipynb)** — reproduce all results and figures (runs on Google Colab)
 
-motif-discover achieves a mean AUROC improvement of **+3.9%** over STREME on shuffled dinucleotide negatives (85 wins, 43 losses, 4 ties; Wilcoxon p = 4.1×10⁻⁷) and **+2.8%** on real genomic hg38 negatives (35 wins, 16 losses; Wilcoxon p = 6.5×10⁻⁴).
+---
 
-On genomic negatives, motif-discover also edges out MEME (0.891 vs 0.881) while running **300× faster**.
+## Key Results
 
-### How to run the benchmark
+Benchmarked on **132 ENCODE K562 ChIP-seq** transcription factor datasets against STREME 5.5.5, MEME 5.5.5, and proto-motif-discover (earlier prototype).
 
-```
-./motif-discover --data <data_dir> --ours-only
-```
+### Accuracy
 
-This runs motif-discover only (no STREME/MEME comparison). For each `*_sequences.fa` file, it discovers a motif on the central 100bp and evaluates AUROC against dinucleotide-shuffled negatives on the full 500bp sequences.
+| Benchmark | motif-discover | proto | STREME | MEME |
+|-----------|:-------------:|:-----:|:------:|:----:|
+| **Shuffled neg.** (132 TFs) | **0.842** | 0.843 | 0.803 | — |
+| **Genomic neg.** (53 TFs) | **0.891** | 0.874 | 0.863 | 0.881 |
+
+motif-discover significantly outperforms STREME on both benchmarks (Wilcoxon p = 4.1×10⁻⁷ and 6.5×10⁻⁴) and matches/exceeds MEME on genomic negatives.
+
+### Speed
+
+| Tool | Per TF | Full 132-TF | vs. STREME |
+|------|:------:|:-----------:|:----------:|
+| **motif-discover** | **0.3s** | **~45s** | **11×** |
+| STREME | 3.3s | ~7 min | 1× |
+| MEME | ~90s | ~3 hr | 0.003× |
+
+### Statistical Significance (vs. STREME)
+
+| Test | Shuffled (132) | Genomic (53) |
+|------|:--------------:|:------------:|
+| Wilcoxon p | 4.1×10⁻⁷ | 6.5×10⁻⁴ |
+| Cliff's δ | +0.31 | +0.38 |
+| Win / Loss | 85 / 43 | 35 / 16 |
+
+### Biological Validation (TOMTOM vs. JASPAR)
+
+94% of discovered motifs match known JASPAR entries; 78% at statistical significance. Head-to-head, motif-discover achieves better match e-values than STREME in 52 of 97 comparable TFs. See the [paper](paper/motif-discover.pdf) for full details.
+
+---
+
+## Figures
+
+<table>
+  <tr>
+    <td width="50%" align="center"><img src="paper/figures/fig2_scatter_shuffled.png" width="95%"/><br/><sub>motif-discover vs. STREME — shuffled negatives (132 TFs)</sub></td>
+    <td width="50%" align="center"><img src="paper/figures/fig5_scatter_genomic.png" width="95%"/><br/><sub>motif-discover vs. STREME — genomic negatives (53 TFs)</sub></td>
+  </tr>
+  <tr>
+    <td width="50%" align="center"><img src="paper/figures/fig3_speed_comparison.png" width="95%"/><br/><sub>Runtime per TF across tools</sub></td>
+    <td width="50%" align="center"><img src="paper/figures/fig4_genomic_comparison.png" width="95%"/><br/><sub>Genomic negatives benchmark — mean AUROC</sub></td>
+  </tr>
+</table>
+
+---
 
 ## Quick Start
 
-```
+```bash
 git clone https://github.com/Travis42/motif-discover.git
 cd motif-discover
 chmod +x motif-discover
@@ -36,55 +71,55 @@ chmod +x motif-discover
 
 The `example/` directory contains 11 ENCODE K562 ChIP-seq profiles. Runtime: ~4 seconds.
 
-## Download
-
-**[motif-discover](motif-discover)** — Static x86-64 Linux binary (928 KB)
-
 ## Usage
 
+```bash
+./motif-discover --data <data_dir> [options]
 ```
-./motif-discover --data <data_dir> [--tf TF_NAME|ALL] [--markov] [--negatives <file>]
-```
 
-**Arguments:**
-- `--data <dir>` — Directory containing `*_sequences.fa` files (500bp peak sequences)
-- `--tf <name>` — Specific transcription factor name, or `ALL` for every TF in the directory
-- `--markov` — Use Markov-1 background for scoring (recommended for genomic negatives)
-- `--negatives <file>` — External negatives FASTA file (e.g., genomic regions)
-- `--ours-only` — Skip STREME/MEME comparison
-- `--no-meme` — Skip MEME comparison (use with `--ours-only` for fastest runs)
+| Option | Description |
+|--------|-------------|
+| `--data <dir>` | Directory containing `*_sequences.fa` files (500bp peak-centered) |
+| `--tf <name>` | Specific TF, or `ALL` for every TF in the directory |
+| `--markov` | Use Markov-1 background scoring (recommended for genomic negatives) |
+| `--negatives <file>` | External negatives FASTA (e.g., hg38 genomic regions) |
+| `--minw <n>` | Minimum motif width (default: 6) |
+| `--maxw <n>` | Maximum motif width (default: 17) |
 
-**Input format:** FASTA files named `<TF>_sequences.fa`, containing 500bp peak-centered sequences. The tool extracts the central 100bp for motif discovery and evaluates on full 500bp sequences.
-
-**Output:** Tab-separated to stderr:
+**Output (tab-separated):**
 
 ```
 TF      Width   AUROC   Time_s  Source  P_value Pos_hit Neg_hit
-USF1    12      0.9923  0.3     ours    1.2e-47 189     7
 ```
+
+## Running the Notebook on Colab
+
+The notebook is designed to run on [Google Colab](https://colab.research.google.com) with one click:
+
+1. Go to [colab.research.google.com](https://colab.research.google.com)
+2. File → Open notebook → GitHub → paste: `Travis42/motif-discover`
+3. Select `demo_notebook.ipynb`
+4. Run All (Runtime → Run all)
+
+Colab provides a Linux x86-64 environment, so the binary runs directly. The notebook downloads the binary, runs it on example data, and reproduces all benchmark figures.
+
+**On GitHub:** Clicking the notebook file will show a static preview of the code cells, but code won't execute. To run it, open in Colab or clone the repo and run locally with Jupyter.
 
 ## Requirements
 
 - x86-64 Linux (kernel 3.2.0+)
-- No dependencies (statically linked)
+- That's it. Statically linked, zero dependencies.
 
 ## Reproducibility
 
-Benchmark data and Jupyter notebooks are included in this repository:
+- `benchmark_data/` — Pre-computed AUROC results for all 132 TFs (shuffled and genomic, all tools)
+- `demo_notebook.ipynb` — Jupyter notebook reproducing all figures and statistics
+- `paper/` — Full LaTeX source and compiled PDF
 
-- `benchmark_data/` — Pre-computed results for all 132 TFs (shuffled and genomic negatives)
-- `demo_notebook.ipynb` — Live demo + benchmark visualization (also runs on Google Colab)
-
-All benchmarks use identical input data, scoring code, and negative sets across tools. Width range 6–17 for all tools. STREME and MEME invoked with standard parameters from MEME Suite 5.5.5.
-
-## About
-
-Source code available upon request for academic collaboration.
-
-## Citation
-
-*Paper in preparation.*
+All benchmarks use identical input data, scoring code, and negative sets across tools. Width range 6–17 bp. STREME and MEME invoked with standard parameters from MEME Suite 5.5.5.
 
 ## Contact
 
-Travis — travis.smith42@pm.me
+Travis Smith — travis.smith42@pm.me
+
+Source code available upon request for academic collaboration.
