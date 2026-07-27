@@ -6,7 +6,9 @@ Distributed as a single 928 KB statically-linked binary — no dependencies, no 
 
 📄 **[Read the paper](paper/motif-discover.pdf)** — full benchmark details, statistical analysis, and biological validation
 
-📊 **[Interactive notebook](demo_notebook.ipynb)** — reproduce all results and figures (runs on Google Colab)
+📊 **[Interactive notebook](demo_notebook.ipynb)** — reproduce all results and figures
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Travis42/motif-discover/blob/main/demo_notebook.ipynb)
 
 ---
 
