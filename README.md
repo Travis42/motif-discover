@@ -51,8 +51,8 @@ motif-discover significantly outperforms STREME on both benchmarks (Wilcoxon p =
 
 <table>
   <tr>
-    <td width="50%" align="center"><img src="paper/figures/fig2_scatter_shuffled.png" width="95%"/><br/><sub>motif-discover vs. STREME — shuffled negatives (132 TFs)</sub></td>
-    <td width="50%" align="center"><img src="paper/figures/fig5_scatter_genomic.png" width="95%"/><br/><sub>motif-discover vs. STREME — genomic negatives (53 TFs)</sub></td>
+    <td width="50%" align="center"><img src="paper/figures/fig2_scatter_shuffled.png" width="95%"/><br/><sub>Per-TF AUROC: each point is one TF. Points above the diagonal indicate TFs where motif-discover outperforms STREME (shuffled negatives, 132 TFs).</sub></td>
+    <td width="50%" align="center"><img src="paper/figures/fig5_scatter_genomic.png" width="95%"/><br/><sub>Per-TF AUROC: each point is one TF. Points above the diagonal indicate TFs where motif-discover outperforms STREME (genomic negatives, 53 TFs).</sub></td>
   </tr>
   <tr>
     <td width="50%" align="center"><img src="paper/figures/fig3_speed_comparison.png" width="95%"/><br/><sub>Runtime per TF across tools</sub></td>
