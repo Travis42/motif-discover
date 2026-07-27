@@ -96,16 +96,15 @@ TF      Width   AUROC   Time_s  Source  P_value Pos_hit Neg_hit
 
 ## Running the Notebook on Colab
 
-The notebook is designed to run on [Google Colab](https://colab.research.google.com) with one click:
+The notebook runs both motif-discover and STREME live on 11 ENCODE ChIP-seq datasets, then visualizes accuracy and speed differences:
 
-1. Go to [colab.research.google.com](https://colab.research.google.com)
-2. File → Open notebook → GitHub → paste: `Travis42/motif-discover`
-3. Select `demo_notebook.ipynb`
-4. Run All (Runtime → Run all)
+1. Click the Colab badge above
+2. Runtime → Run all
+3. ~40 seconds later: per-TF AUROC comparison, scatter plot, and speed benchmark
 
-Colab provides a Linux x86-64 environment, so the binary runs directly. The notebook clones this repo, runs motif-discover on example data, and reproduces all benchmark figures.
+Both binaries are included in the repo. Speed comparisons are relative to the Colab machine's CPU.
 
-**On GitHub:** Clicking the notebook file will show a static preview of the code cells, but code won't execute. To run it, open in Colab or clone the repo and run locally with Jupyter.
+**On GitHub:** Clicking the notebook shows a static preview. To run it, use Colab or clone the repo and run locally with Jupyter.
 
 ## Requirements
 

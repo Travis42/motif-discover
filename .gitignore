@@ -1,4 +1,4 @@
-# Build artifacts and source
+# Binaries (source is private; binaries are distributed)
 build/
 src/
 *.o
