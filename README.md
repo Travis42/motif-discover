@@ -101,7 +101,7 @@ The notebook is designed to run on [Google Colab](https://colab.research.google.
 3. Select `demo_notebook.ipynb`
 4. Run All (Runtime → Run all)
 
-Colab provides a Linux x86-64 environment, so the binary runs directly. The notebook downloads the binary, runs it on example data, and reproduces all benchmark figures.
+Colab provides a Linux x86-64 environment, so the binary runs directly. The notebook clones this repo, runs motif-discover on example data, and reproduces all benchmark figures.
 
 **On GitHub:** Clicking the notebook file will show a static preview of the code cells, but code won't execute. To run it, open in Colab or clone the repo and run locally with Jupyter.
 
