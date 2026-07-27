@@ -23,13 +23,13 @@ Benchmarked on **132 ENCODE K562 ChIP-seq** transcription factor datasets agains
 | **Shuffled neg.** (132 TFs) | **0.842** | 0.843 | 0.803 | — |
 | **Genomic neg.** (53 TFs) | **0.891** | 0.874 | 0.863 | 0.881 |
 
-motif-discover significantly outperforms STREME on both benchmarks (Wilcoxon p = 4.1×10⁻⁷ and 6.5×10⁻⁴) and matches/exceeds MEME on genomic negatives.
+motif-discover significantly outperforms STREME on both benchmarks (Wilcoxon p = 4.1×10⁻⁷ and 6.5×10⁻⁴) and matches/exceeds MEME on genomic negatives — while running 11–15× faster than STREME and ~300× faster than MEME.
 
 ### Speed
 
 | Tool | Per TF | Full 132-TF | vs. STREME |
 |------|:------:|:-----------:|:----------:|
-| **motif-discover** | **0.3s** | **~45s** | **11×** |
+| **motif-discover** | **0.3s** | **~45s** | **11–15×** |
 | STREME | 3.3s | ~7 min | 1× |
 | MEME | ~90s | ~3 hr | 0.003× |
 
